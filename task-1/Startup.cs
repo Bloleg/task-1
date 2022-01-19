@@ -11,14 +11,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using task_1.Data;
 
 namespace task_1
 {
     public class Startup
     {
+        public string ConnectionStrings { get; set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConnectionStrings = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public IConfiguration Configuration { get; }
@@ -28,6 +32,11 @@ namespace task_1
         {
 
             services.AddControllers();
+
+            // Db Sql
+
+            services.AddDbContext<Data.AppDbContext>(options => options.UseSqlServer(ConnectionStrings));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "task_1", Version = "v1" });
@@ -54,6 +63,8 @@ namespace task_1
             {
                 endpoints.MapControllers();
             });
+
+            AppDbInitializer.Seed(app);
         }
     }
 }
