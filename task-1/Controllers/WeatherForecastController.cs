@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace task_1.Controllers
 {
+    /// <summary>
+    /// Контроллер прогноза погоды
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
